@@ -3,7 +3,8 @@
 ![Python](https://img.shields.io/badge/python-3.12-blue.svg)
 ![License](https://img.shields.io/github/license/chkechad/transformers-lab)
 ![Last Commit](https://img.shields.io/github/last-commit/chkechad/transformers-lab)
-![Coverage](https://img.shields.io/badge/coverage-local-lightgrey)
+![Coverage](https://codecov.io/gh/chkechad/transformers-lab/branch/main/graph/badge.svg)
+
 
 
 ## Prerequisites
