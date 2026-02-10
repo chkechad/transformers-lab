@@ -1,83 +1,98 @@
 # Transformers
 
-## Prerequisite
+## Prerequisites
 
-- Python3.12
-- Numpy
-- Algèbre linéaire
-    - Vecteurs
+- Python 3.12
+- NumPy
+- Linear Algebra
+    - Vectors
     - Matrices
-    - Produits matriciel
+    - Matrix multiplication
     - Softmax
 
-## Pourquoi les transformers existe :
+## A Brief History of Language Modeling
 
-- RNN / LSTM
+- 2013: Word2Vec / N-grams
+- 2014: RNN / LSTM
+- 2015: Attention mechanism
+- 2017: Transformers – large pre-trained language models
+- 2018: BERT
+- 2019: T5
+- 2020: GPT-3
+- 2022: PaLM
 
-- Attention: Chaque mot décide à quelles autres mots, il doit faire attention
-- [Attention is all you need](https://arxiv.org/pdf/1706.03762)
+## Why Transformers Exist
+
+### Limitations of RNNs / LSTMs
+
+- Sequential computation → slow and hard to parallelize
+- Long-range dependencies are difficult to capture
+
+### Attention Mechanism
+
+- Each word decides which other words to pay attention to
+- Introduced in *Attention Is All You Need*
 
 ## Attention (Scaled Dot-Product Attention)
 
-Pour chaque token :
+For each token:
 
-- **Query (Q)** : ce que je cherche
-- **Key (K)** : ce que je propose
-- **Value (V)** : l’information que je fournis
+- Query (Q): what I am looking for
+- Key (K): what I offer
+- Value (V): the information I provide
 
-### Formule centrale
+### Core Formula
 
-$$
-\text{Attention}(Q, K, V)
-=
-\text{softmax}\left(
-\frac{QK^{\top}}{\sqrt{d_k}}
-\right)V
-$$
+Attention(Q, K, V) = softmax(QKᵀ / √dₖ) V
 
-### Où :
+## Self-Attention
 
-- $Q \in \mathbb{R}^{n \times d_k}$
-- $K \in \mathbb{R}^{n \times d_k}$
-- $V \in \mathbb{R}^{n \times d_v}$
-- $d_k$ : dimension des clés
-- $n$ : nombre de tokens
+- Query, Key, and Value come from the same input
+- Padding and causal masks
+- Numerically stable softmax
 
-## Self attention
+## Multi-Head Attention
 
-- Query,Key, Value
-- Scaled Dot-Product Attention
-- Softmax Stable
-- Masque (Padding + Causal)
-
-## Multi-Head attention
-
-- Pourquoi plusieurs têtes
-- Comment splitter / Concaténer
-- Comment garder les dimensions propre
+- Why multiple heads matter
+- Splitting and concatenation
+- Dimension consistency
 
 ## Positional Encoding
 
-- Sinus / Cosinus
-- Encodage appris
-- impact réel sur le modèle
+- Sinusoidal encoding
+- Learned positional embeddings
+- Impact on model performance
 
-## Bloc transformer
+## Transformer Block
 
-- attention
-- residual connections
-- layer normalization
-- feed-forward network
+- Self-attention
+- Residual connections
+- Layer normalization
+- Feed-forward network
 
-## Encoder, Decoder, masques
+## Encoder / Decoder Architectures
 
 - Encoder-only (BERT)
-- Encoder-Decoder (T5)
-- Encoder-only (GPT)
+- Encoder–Decoder (T5)
+- Decoder-only (GPT)
 
-## Entraîner un mini-Transformer
+## Training a Mini-Transformer
 
-- task simple (copy task, traduction toy)
-- loss
-- backprop (au moins conceptuellement)
-- limitations du “Python pur”
+- Simple tasks (copy task, toy translation)
+- Cross-entropy loss
+- Backpropagation
+- Limits of pure Python implementations
+
+## Using the GPU
+
+### CUDA (NVIDIA)
+
+- Required for serious training
+- CUDA Toolkit + cuDNN
+- PyTorch
+- Mixed precision (FP16 / BF16)
+
+### Alternatives
+
+- Apple Silicon (MPS)
+- Cloud GPUs (AWS, GCP, Azure, RunPod)
