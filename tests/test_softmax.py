@@ -1,4 +1,6 @@
 import numpy as np
+from torch import from_numpy
+from torch import softmax as torch_softmax
 
 from softmax import softmax
 
@@ -6,6 +8,8 @@ from softmax import softmax
 def test_softmax_sum_to_one() -> None:
     x = np.array([1.0, 2.0, 3.0])
     y = softmax(x)
+    y_torch_softmax = torch_softmax(from_numpy(x), -1)
+    assert np.allclose(y_torch_softmax, y, atol=1e-7)
 
     assert np.isclose(np.sum(y), 1.0)
 
