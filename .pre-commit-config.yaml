@@ -3,8 +3,9 @@ repos:
     rev: v0.2.2
     hooks:
       - id: ruff
-        args: ["--fix"]
+        args: [ "--fix", "--exit-non-zero-on-fix" ]
       - id: ruff-format
+
 
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.8.0
@@ -16,3 +17,18 @@ repos:
     hooks:
       - id: end-of-file-fixer
       - id: trailing-whitespace
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      - id: check-added-large-files
+      - id: detect-private-key
+      - id: check-merge-conflict
+      - id: mixed-line-ending
+  - repo: https://github.com/PyCQA/pydocstyle
+    rev: 6.3.0
+    hooks:
+      - id: pydocstyle
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
