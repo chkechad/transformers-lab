@@ -1,6 +1,6 @@
 import numpy as np
 
-from self_attention import self_attention
+from src.self_attention import self_attention
 
 
 def test_self_attention_shape() -> None:

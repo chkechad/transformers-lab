@@ -1,7 +1,7 @@
 """Compute self-attention."""
 import numpy as np
 
-from softmax import softmax
+from src.softmax import softmax
 
 
 def self_attention(x: np.ndarray, d_k: int) -> np.ndarray:

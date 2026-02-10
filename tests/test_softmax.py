@@ -2,7 +2,7 @@ import numpy as np
 from torch import from_numpy
 from torch import softmax as torch_softmax
 
-from softmax import softmax
+from src.softmax import softmax
 
 
 def test_softmax_sum_to_one() -> None:
