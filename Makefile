@@ -42,7 +42,13 @@ typecheck:
 
 .PHONY: test
 test:
-	$(PYTEST)
+	$(PYTEST) --cov=. --cov-report=term-missing
+
+
+.PHONY: coverage
+coverage:
+	$(PYTEST) --cov=. --cov-report=html
+	@echo "📊 Coverage report generated in htmlcov/index.html"
 
 .PHONY: pre-commit
 pre-commit:

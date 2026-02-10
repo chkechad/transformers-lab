@@ -1,4 +1,10 @@
 # Transformers
+![CI](https://github.com/chkechad/transformers-lab/actions/workflows/ci.yml/badge.svg)
+![Python](https://img.shields.io/badge/python-3.12-blue.svg)
+![License](https://img.shields.io/github/license/chkechad/transformers-lab)
+![Last Commit](https://img.shields.io/github/last-commit/chkechad/transformers-lab)
+![Coverage](https://img.shields.io/badge/coverage-local-lightgrey)
+
 
 ## Prerequisites
 
