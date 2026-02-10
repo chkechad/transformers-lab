@@ -1,5 +1,5 @@
-"""
-Softmax is used to:
+"""Softmax is used to!
+
 - transform arbitrary real-valued scores into probabilities
 - ensure all values are positive
 - ensure the probabilities sum to 1
@@ -14,8 +14,7 @@ import numpy as np
 
 
 def softmax(x: np.ndarray, axis: int = -1) -> np.ndarray:
-    """
-    Computes the softmax function in a numerically stable way.
+    """Compute the softmax function in a numerically stable way.
 
     The softmax function transforms arbitrary real-valued scores
     into positive probabilities that sum to 1 along the specified axis.

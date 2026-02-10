@@ -1,11 +1,11 @@
+"""Compute self-attention."""
 import numpy as np
 
 from softmax import softmax
 
 
 def self_attention(x: np.ndarray, d_k: int) -> np.ndarray:
-    """
-    Computes self-attention for a given input sequence.
+    """Computes self-attention for a given input sequence.
 
     :param x: Input sequence of shape (seq_len, d_model)
     :param d_k: Dimensionality of the key vectors
