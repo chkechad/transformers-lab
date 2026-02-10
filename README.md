@@ -13,8 +13,35 @@
 ## Pourquoi les transformers existe :
 
 - RNN / LSTM
-- Attention
-- Attention is all you need
+
+- Attention: Chaque mot décide à quelles autres mots, il doit faire attention
+- [Attention is all you need](https://arxiv.org/pdf/1706.03762)
+
+## Attention (Scaled Dot-Product Attention)
+
+Pour chaque token :
+
+- **Query (Q)** : ce que je cherche
+- **Key (K)** : ce que je propose
+- **Value (V)** : l’information que je fournis
+
+### Formule centrale
+
+$$
+\text{Attention}(Q, K, V)
+=
+\text{softmax}\left(
+\frac{QK^{\top}}{\sqrt{d_k}}
+\right)V
+$$
+
+### Où :
+
+- $Q \in \mathbb{R}^{n \times d_k}$
+- $K \in \mathbb{R}^{n \times d_k}$
+- $V \in \mathbb{R}^{n \times d_v}$
+- $d_k$ : dimension des clés
+- $n$ : nombre de tokens
 
 ## Self attention
 
@@ -54,4 +81,3 @@
 - loss
 - backprop (au moins conceptuellement)
 - limitations du “Python pur”
-
