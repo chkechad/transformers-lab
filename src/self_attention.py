@@ -23,7 +23,7 @@ def scaled_dot_product_attention(
     v : np.ndarray
         Value matrix of shape (seq_len, d_k)
 
-    Returns
+    Returns:
     -------
     np.ndarray
         Output matrix of shape (seq_len, d_k)
@@ -57,7 +57,7 @@ def self_attention(
     w_v : np.ndarray
         Value projection matrix of shape (d_model, d_k)
 
-    Returns
+    Returns:
     -------
     np.ndarray
         Output of shape (seq_len, d_k)

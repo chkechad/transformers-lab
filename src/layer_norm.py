@@ -17,7 +17,7 @@ class LayerNorm:
             Value added to the denominator for numerical stability.
             Default is 1e-6.
 
-        Attributes
+        Attributes:
         ----------
         gamma : np.ndarray
             Scale parameter of shape (d_model,).
@@ -38,7 +38,7 @@ class LayerNorm:
         x : np.ndarray
             Input tensor of shape (..., d_model).
 
-        Returns
+        Returns:
         -------
         np.ndarray
             Normalized tensor with the same shape as input.

@@ -14,7 +14,6 @@ dependencies = [
 dev = [
     "mypy>=1.19.1",
     "pre-commit>=4.5.1",
-    "pydocstyle>=6.3.0",
     "pytest>=9.0.2",
     "pytest-cov>=7.0.0",
     "ruff>=0.15.0",
@@ -22,10 +21,14 @@ dev = [
 
 
 [tool.ruff]
-line-length = 88
+line-length = 120
 target-version = "py312"
-select = ["E", "F", "I", "N", "UP", "B", "SIM"]
-fix = true
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "UP", "B", "SIM", "D"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["D"]
@@ -37,5 +40,17 @@ warn_unused_ignores = true
 warn_return_any = true
 disallow_untyped_defs = true
 
-[tool.pydocstyle]
-convention = "google"
+[tool.pytest.ini_options]
+minversion = "9.0"
+addopts = "-ra -q --strict-markers --strict-config --cov=. --cov-report=term-missing"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+
+[tool.coverage.run]
+branch = true
+source = ["src"]
+
+[tool.coverage.report]
+fail_under = 85
+show_missing = true

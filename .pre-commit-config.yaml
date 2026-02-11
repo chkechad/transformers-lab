@@ -1,14 +1,14 @@
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.2.2
+    rev: v0.15.0
     hooks:
       - id: ruff
-        args: [ "--fix", "--exit-non-zero-on-fix" ]
+        args:
+          - --fix
+          - --exit-non-zero-on-fix
       - id: ruff-format
-
-
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.8.0
+    rev: v1.19.1
     hooks:
       - id: mypy
 
@@ -24,11 +24,42 @@ repos:
       - id: detect-private-key
       - id: check-merge-conflict
       - id: mixed-line-ending
-  - repo: https://github.com/PyCQA/pydocstyle
-    rev: 6.3.0
-    hooks:
-      - id: pydocstyle
   - repo: https://github.com/Yelp/detect-secrets
-    rev: v1.4.0
+    rev: v1.5.0
     hooks:
       - id: detect-secrets
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.21.2
+    hooks:
+      - id: pyupgrade
+        args: [ "--py312-plus" ]
+
+  - repo: https://github.com/PyCQA/autoflake
+    rev: v2.3.1
+    hooks:
+      - id: autoflake
+        args:
+          - --remove-all-unused-imports
+          - --remove-unused-variables
+          - --in-place
+
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.9.3
+    hooks:
+    - id: bandit
+      pass_filenames: false
+      args:
+        - -q
+        - -r
+        - src
+        - -x
+        - tests
+
+  - repo: local
+    hooks:
+      - id: pytest
+        name: pytest
+        entry: uv run pytest -q -m "not slow"
+        language: system
+        pass_filenames: false
+#        stages: [pre-push]

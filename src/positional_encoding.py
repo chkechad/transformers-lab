@@ -14,7 +14,7 @@ def sinusoidal_positional_encoding(seq_len: int, d_model: int) -> np.ndarray:
     d_model : int
         Dimensionality of the model
 
-    Returns
+    Returns:
     -------
     np.ndarray
         Positional encoding matrix of shape (seq_len, d_model)

@@ -35,7 +35,7 @@ def multi_head_attention(
     n_heads : int
         Number of attention heads
 
-    Returns
+    Returns:
     -------
     np.ndarray
         Output tensor of shape (seq_len, d_model)

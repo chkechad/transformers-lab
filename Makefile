@@ -34,7 +34,6 @@ install:
 lint:
 	$(PRECOMMIT) run ruff --all-files
 	$(PRECOMMIT) run ruff-format --all-files
-	$(PRECOMMIT) run pydocstyle --all-files
 
 .PHONY: typecheck
 typecheck:
