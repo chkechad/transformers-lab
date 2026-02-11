@@ -1,11 +1,10 @@
 # Transformers
+
 ![CI](https://github.com/chkechad/transformers-lab/actions/workflows/ci.yml/badge.svg)
 ![Python](https://img.shields.io/badge/python-3.12-blue.svg)
 ![License](https://img.shields.io/github/license/chkechad/transformers-lab)
 ![Last Commit](https://img.shields.io/github/last-commit/chkechad/transformers-lab)
 ![Coverage](https://codecov.io/gh/chkechad/transformers-lab/branch/main/graph/badge.svg)
-
-
 
 ## Prerequisites
 
@@ -38,7 +37,7 @@
 ### Attention Mechanism
 
 - Each word decides which other words to pay attention to
-- Introduced in *Attention Is All You Need*
+- Introduced [Attention Is All You Need](https://arxiv.org/pdf/1706.03762)
 
 ## Attention (Scaled Dot-Product Attention)
 
@@ -50,7 +49,13 @@ For each token:
 
 ### Core Formula
 
-Attention(Q, K, V) = softmax(QKᵀ / √dₖ) V
+Attention(Q, K, V) = softmax((QK^T) / sqrt(d_k)) V
+
+
+- \(Q\) : Query
+- \(K\) : Key
+- \(V\) : Value
+- \(d_k\) : dimension of the keys
 
 ## Self-Attention
 
