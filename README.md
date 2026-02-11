@@ -5,8 +5,7 @@
 ![License](https://img.shields.io/github/license/chkechad/transformers-lab)
 ![Last Commit](https://img.shields.io/github/last-commit/chkechad/transformers-lab)
 ![Coverage](https://codecov.io/gh/chkechad/transformers-lab/branch/main/graph/badge.svg)
-![Docs](https://img.shields.io/badge/docs-online-blue)
-[Documentation](https://chkechad.github.io/transformers-lab/)
+[![Docs](https://img.shields.io/badge/docs-mkdocs%20material-blue?logo=materialformkdocs)](https://chkechad.github.io/transformers-lab/)
 
 
 ## Prerequisites
