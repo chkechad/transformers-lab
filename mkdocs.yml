@@ -1,0 +1,29 @@
+site_name: Transformers
+site_url: https://chkechad.github.io/transformers-lab/
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: deep orange
+    - scheme: slate
+      primary: indigo
+      accent: deep orange
+      toggle:
+        icon: material/weather-night
+        name: Dark mode
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - content.code.copy
+
+plugins:
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            members: true
+            show_root_heading: true
+            show_source: false

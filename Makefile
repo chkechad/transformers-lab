@@ -1,31 +1,67 @@
 # =========================================
 # Project configuration
 # =========================================
-PYTHON      := uv run python
-PRECOMMIT   := uv run pre-commit
-PYTEST      := uv run pytest
+UV          := uv
+PYTHON      := $(UV) run python
+PRECOMMIT   := $(UV) run pre-commit
+PYTEST      := $(UV) run pytest
+MKDOCS      := $(UV) run mkdocs
+CZ          := $(UV) run cz
+PIPAUDIT    := $(UV) run pip-audit
+BANDIT      := $(UV) run bandit
+MUTMUT      := $(UV) run mutmut
+RADON       := $(UV) run radon
+VULTURE     := $(UV) run vulture
+CYCLODX     := $(UV) run cyclonedx-py
+
+SRC := src
+TESTS := tests
 
 # =========================================
 # Help
 # =========================================
 .PHONY: help
 help:
-	@echo "Available commands:"
-	@echo "  make install        Sync dependencies & install pre-commit"
-	@echo "  make lint           Run linting & formatting"
-	@echo "  make typecheck      Run mypy"
-	@echo "  make test           Run pytest"
-	@echo "  make pre-commit     Run all pre-commit hooks"
-	@echo "  make check          Run lint + typecheck + tests"
-	@echo "  make clean          Clean caches and artifacts"
+	@echo "========== Setup =========="
+	@echo "make install        Install all dependencies"
+	@echo ""
+	@echo "========== Quality =========="
+	@echo "make lint           Run ruff + format"
+	@echo "make typecheck      Run mypy"
+	@echo "make test           Run pytest + doctest"
+	@echo "make coverage       HTML coverage report"
+	@echo "make benchmark      Run performance benchmarks"
+	@echo ""
+	@echo "========== Security =========="
+	@echo "make bandit         Code security scan"
+	@echo "make security       Dependency audit"
+	@echo "make sbom           Generate SBOM"
+	@echo ""
+	@echo "========== Advanced Quality =========="
+	@echo "make mutation       Run mutation tests"
+	@echo "make complexity     Cyclomatic complexity"
+	@echo "make deadcode       Detect unused code"
+	@echo "make profile        Run profiling"
+	@echo ""
+	@echo "========== Docs =========="
+	@echo "make doc-serve      Serve docs"
+	@echo "make doc-build      Build docs"
+	@echo "make doc-deploy     Deploy docs"
+	@echo ""
+	@echo "========== Release =========="
+	@echo "make release        Bump version"
+	@echo ""
+	@echo "make check          Full extreme pipeline"
+	@echo "make clean          Clean project"
 
 # =========================================
 # Setup
 # =========================================
 .PHONY: install
 install:
-	uv sync
+	$(UV) sync --dev --group doc
 	$(PRECOMMIT) install
+	$(PRECOMMIT) install --hook-type commit-msg
 
 # =========================================
 # Quality
@@ -41,21 +77,83 @@ typecheck:
 
 .PHONY: test
 test:
-	$(PYTEST) --cov=. --cov-report=term-missing
-
+	$(PYTEST) --cov=. --cov-report=term-missing --doctest-modules .
 
 .PHONY: coverage
 coverage:
 	$(PYTEST) --cov=. --cov-report=html
-	@echo "📊 Coverage report generated in htmlcov/index.html"
+	@echo "Coverage report → htmlcov/index.html"
 
-.PHONY: pre-commit
-pre-commit:
-	$(PRECOMMIT) run --all-files
+.PHONY: benchmark
+benchmark:
+	$(PYTEST) --benchmark-only
 
+# =========================================
+# Security
+# =========================================
+.PHONY: bandit
+bandit:
+	$(BANDIT) -q -r $(SRC) -x $(TESTS)
+
+.PHONY: security
+security:
+	$(PIPAUDIT) --strict
+
+.PHONY: sbom
+sbom:
+	$(CYCLODX) --format json -o sbom.json
+	@echo "SBOM generated → sbom.json"
+
+# =========================================
+# Advanced Quality
+# =========================================
+.PHONY: mutation
+mutation:
+	$(MUTMUT) run
+	$(MUTMUT) results
+
+.PHONY: complexity
+complexity:
+	$(RADON) cc $(SRC) -a
+
+.PHONY: deadcode
+deadcode:
+	$(VULTURE) $(SRC)
+
+.PHONY: profile
+profile:
+	$(PYTHON) -m cProfile -o profile.out -m pytest
+	@echo "Profile saved → profile.out"
+
+# =========================================
+# Documentation
+# =========================================
+.PHONY: doc-serve
+doc-serve:
+	$(MKDOCS) serve
+
+.PHONY: doc-build
+doc-build:
+	$(MKDOCS) build --strict
+
+.PHONY: doc-deploy
+doc-deploy:
+	$(MKDOCS) gh-deploy --force
+
+# =========================================
+# Release
+# =========================================
+.PHONY: release
+release:
+	$(CZ) bump
+	@echo "Version bumped + changelog updated"
+
+# =========================================
+# Master pipeline
+# =========================================
 .PHONY: check
-check: lint typecheck test
-	@echo "✅ All checks passed"
+check: lint typecheck bandit security test
+	@echo "✅✅✅✅"
 
 # =========================================
 # Cleaning
@@ -68,4 +166,10 @@ clean:
 	rm -rf .ruff_cache
 	rm -rf .coverage
 	rm -rf htmlcov
+	rm -rf site
+	rm -rf dist
+	rm -rf build
+	rm -rf .mutmut-cache
+	rm -rf profile.out
+	rm -rf sbom.json
 	rm -rf .cache/pre-commit

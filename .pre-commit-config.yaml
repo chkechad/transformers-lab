@@ -43,17 +43,23 @@ repos:
           - --remove-unused-variables
           - --in-place
 
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v4.13.7
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
+
   - repo: https://github.com/PyCQA/bandit
     rev: 1.9.3
     hooks:
-    - id: bandit
-      pass_filenames: false
-      args:
-        - -q
-        - -r
-        - src
-        - -x
-        - tests
+      - id: bandit
+        pass_filenames: false
+        args:
+          - -q
+          - -r
+          - src
+          - -x
+          - tests
 
   - repo: local
     hooks:
