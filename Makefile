@@ -77,11 +77,11 @@ typecheck:
 
 .PHONY: test
 test:
-	$(PYTEST) --cov=. --cov-report=term-missing --doctest-modules .
+	$(PYTEST) tests --cov=transformers_lab --cov-report=term-missing --doctest-modules
 
 .PHONY: coverage
 coverage:
-	$(PYTEST) --cov=. --cov-report=html
+	$(PYTEST) --cov=transformers_lab --cov-report=html
 	@echo "Coverage report → htmlcov/index.html"
 
 .PHONY: benchmark
@@ -101,7 +101,7 @@ security:
 
 .PHONY: sbom
 sbom:
-	$(CYCLODX) --format json -o sbom.json
+	$(CYCLODX) environment --output-format json --output-file sbom.json
 	@echo "SBOM generated → sbom.json"
 
 # =========================================

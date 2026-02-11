@@ -316,3 +316,9 @@ poetry.toml
 
 # LSP config files
 pyrightconfig.json
+
+#Sbom
+sbom.json
+
+mutants/
+profile.out

@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from src.self_attention import scaled_dot_product_attention
+from transformers_lab.self_attention import scaled_dot_product_attention
 
 
 def multi_head_attention(

@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.positional_encoding import sinusoidal_positional_encoding
+from transformers_lab.positional_encoding import sinusoidal_positional_encoding
 
 
 def test_shape() -> None:

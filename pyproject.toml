@@ -71,6 +71,7 @@ check_untyped_defs = true
 # Pytest
 # ======================
 [tool.pytest.ini_options]
+pythonpath = ["src"]
 minversion = "9.0"
 addopts = "-ra -q --strict-markers --strict-config --cov=src --cov-report=term-missing --doctest-modules"
 testpaths = ["tests"]

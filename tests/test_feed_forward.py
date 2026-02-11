@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.feed_forward import FeedForward
+from transformers_lab.feed_forward import FeedForward
 
 
 def test_exemple_forward() -> None:

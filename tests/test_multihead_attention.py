@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 
-from src.multihead_attention import multi_head_attention
+from transformers_lab.multihead_attention import multi_head_attention
 
 
 def test_multi_head_matches_torch() -> None:

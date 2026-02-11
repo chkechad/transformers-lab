@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.layer_norm import LayerNorm
+from transformers_lab.layer_norm import LayerNorm
 
 
 def test_layer_normalization() -> None:

@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from src.softmax import softmax
+from transformers_lab.softmax import softmax
 
 
 def scaled_dot_product_attention(
