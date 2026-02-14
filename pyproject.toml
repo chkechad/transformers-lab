@@ -113,3 +113,4 @@ version = "0.2.1"
 tag_format = "v$version"
 version_files = ["pyproject.toml:version"]
 update_changelog_on_bump = true
+annotated_tag = true

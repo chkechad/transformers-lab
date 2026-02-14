@@ -37,4 +37,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push tags
-        run: git push origin HEAD --follow-tags
+        run: git push origin HEAD && git push origin --tags
