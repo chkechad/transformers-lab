@@ -4,7 +4,8 @@ from torch.nn.functional import (
     scaled_dot_product_attention as torch_scaled_dot_product_attention,
 )
 
-from transformers_lab.self_attention import scaled_dot_product_attention, self_attention
+from transformers_lab.scaled_dot_product_attention import scaled_dot_product_attention
+from transformers_lab.self_attention import self_attention
 
 
 def test_scaled_dot_product_attention_matches_torch() -> None:
