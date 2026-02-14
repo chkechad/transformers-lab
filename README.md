@@ -7,7 +7,6 @@
 ![Coverage](https://codecov.io/gh/chkechad/transformers-lab/branch/main/graph/badge.svg)
 [![Docs](https://img.shields.io/badge/docs-mkdocs%20material-blue?logo=materialformkdocs)](https://chkechad.github.io/transformers-lab/)
 
-
 ## Prerequisites
 
 - Python 3.12
@@ -52,7 +51,6 @@ For each token:
 ### Core Formula
 
 Attention(Q, K, V) = softmax((QK^T) / sqrt(d_k)) V
-
 
 - \(Q\) : Query
 - \(K\) : Key
@@ -105,8 +103,3 @@ Attention(Q, K, V) = softmax((QK^T) / sqrt(d_k)) V
 - CUDA Toolkit + cuDNN
 - PyTorch
 - Mixed precision (FP16 / BF16)
-
-### Alternatives
-
-- Apple Silicon (MPS)
-- Cloud GPUs (AWS, GCP, Azure, RunPod)
