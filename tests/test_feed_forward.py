@@ -1,9 +1,11 @@
+from collections.abc import Callable
+
 import numpy as np
 
 from transformers_lab.feed_forward import FeedForward
 
 
-def test_exemple_forward() -> None:
+def test_exemple_forward(deterministic_weight_init: Callable[[int, int], np.ndarray]) -> None:
     x = np.array(
         [
             [1.0, 0.5, -0.3, 2.0],
@@ -13,7 +15,7 @@ def test_exemple_forward() -> None:
     )
     d_model = 4
     d_ff = 8
-    ffn = FeedForward(d_model, d_ff)
+    ffn = FeedForward(d_model, d_ff, init_weight_fn=deterministic_weight_init)
     got = ffn.forward(x)
     assert got.shape == (3, 4)
     assert not np.allclose(got[0], got[1])

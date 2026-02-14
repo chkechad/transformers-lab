@@ -1,3 +1,5 @@
+from collections.abc import Callable
+
 import numpy as np
 import torch
 import torch.nn as nn
@@ -5,10 +7,11 @@ import torch.nn as nn
 from transformers_lab.embedding import Embedding
 
 
-def test_embedding() -> None:
+def test_embedding(deterministic_weight_init: Callable[[int, int], np.ndarray]) -> None:
     vocab_size = 10000
     d_model = 512
-    embedding = Embedding(vocab_size=vocab_size, d_model=d_model)
+
+    embedding = Embedding(vocab_size=vocab_size, d_model=d_model, init_weight_fn=deterministic_weight_init)
     token_ids = np.array([11, 25, 455])
     vectors_np = embedding(token_ids)
 
