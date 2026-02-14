@@ -47,6 +47,7 @@ def scaled_dot_product_attention(
     q: np.ndarray,
     k: np.ndarray,
     v: np.ndarray,
+    mask: np.ndarray | None = None,
 ) -> np.ndarray:
     """Compute scaled dot-product attention.
 
@@ -60,6 +61,8 @@ def scaled_dot_product_attention(
 
     v : np.ndarray
         Value matrix of shape (seq_len, d_k)
+    mask: np.ndarray or None
+        Mask to apply during attention computation. Must be of shape (seq_len, seq_len)
 
     Returns:
     -------
@@ -69,6 +72,8 @@ def scaled_dot_product_attention(
     d_k = q.shape[-1]
     scores = q @ k.T
     scores = scores / np.sqrt(d_k)
+    if mask is not None:
+        scores = scores + mask
     weights: np.ndarray = softmax(scores, axis=-1)
     return weights @ v
 
@@ -78,6 +83,7 @@ def self_attention(
     w_q: np.ndarray,
     w_k: np.ndarray,
     w_v: np.ndarray,
+    mask: np.ndarray | None = None,
 ) -> np.ndarray:
     """Compute single-head self-attention.
 
@@ -95,6 +101,9 @@ def self_attention(
     w_v : np.ndarray
         Value projection matrix of shape (d_model, d_k)
 
+    mask : np.ndarray, optional
+        Mask of shape (seq_len, seq_len). Defaults to None.
+
     Returns:
     -------
     np.ndarray
@@ -104,4 +113,4 @@ def self_attention(
     k: np.ndarray = x @ w_k
     v: np.ndarray = x @ w_v
 
-    return scaled_dot_product_attention(q, k, v)
+    return scaled_dot_product_attention(q, k, v, mask=mask)

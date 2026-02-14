@@ -12,6 +12,8 @@ def multi_head_attention(
     w_v: np.ndarray,
     w_o: np.ndarray,
     n_heads: int,
+    x_cross: np.ndarray | None = None,
+    mask: np.ndarray | None = None,
 ) -> np.ndarray:
     """Computes multi-head attention.
 
@@ -35,19 +37,29 @@ def multi_head_attention(
     n_heads : int
         Number of attention heads
 
+    x_cross : np.ndarray, optional
+        Encoder output of shape (src_seq_len, d_model).
+        If provided, keys and values come from x_cross (cross-attention).
+        If None, keys and values come from x (self-attention).
+    mask : np.ndarray, optional
+        Mask of shape (seq_len, seq_len).
+        Use make_causal_mask() for masked self-attention in the decoder.
+
     Returns:
     -------
     np.ndarray
         Output tensor of shape (seq_len, d_model)
     """
+    kv_source: np.ndarray = x_cross if x_cross is not None else x
+
     heads: list[np.ndarray] = []
 
     for i in range(n_heads):
         q = x @ w_q[i]
-        k = x @ w_k[i]
-        v = x @ w_v[i]
+        k = kv_source @ w_k[i]
+        v = kv_source @ w_v[i]
 
-        head = scaled_dot_product_attention(q, k, v)
+        head = scaled_dot_product_attention(q, k, v, mask=mask)
         heads.append(head)
 
     concat = np.concatenate(heads, axis=-1)
