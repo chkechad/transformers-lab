@@ -1,3 +1,16 @@
+## v0.3.0 (2026-02-14)
+
+### Feat
+
+- add causal mask
+- add encoder
+- add embedding
+- include claude vibe coding
+
+### Refactor
+
+- init weight with DI
+
 ## v0.2.1 (2026-02-11)
 
 ### Refactor
