@@ -1,3 +1,9 @@
+## v0.3.2 (2026-02-14)
+
+### Refactor
+
+- remove duplicate causal_mask and separate scaled_dot_product_attention
+
 ## v0.3.1 (2026-02-14)
 
 ### Fix
