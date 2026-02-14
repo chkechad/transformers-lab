@@ -322,3 +322,7 @@ sbom.json
 
 mutants/
 profile.out
+
+# Claude code
+.claude/worktrees/
+.claude/settings.local.json
