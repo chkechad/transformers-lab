@@ -1,3 +1,9 @@
+## v0.4.0 (2026-02-15)
+
+### Feat
+
+- add decoder and decoder block
+
 ## v0.3.2 (2026-02-14)
 
 ### Refactor
