@@ -32,7 +32,7 @@ jobs:
           git config user.email "github-actions@github.com"
 
       - name: Bump version & generate changelog
-        run: uv run cz bump --yes
+        run: uv run cz bump --yes || true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
