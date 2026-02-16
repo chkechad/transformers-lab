@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 import torch
 import torch.nn as nn
 
@@ -95,3 +96,11 @@ def test_decoder_block() -> None:
         )
 
     assert np.allclose(out_np, out_torch, atol=1e-5), f"Outputs differ!\nNumpy:\n{out_np}\nPyTorch:\n{out_torch}"
+
+
+def test_decoder_block_raises_value_error_when_d_model_not_divisible_by_n_heads() -> None:
+    d_model = 65
+    n_heads = 8
+    d_hidden_ff = 128
+    with pytest.raises(ValueError):
+        DecoderBlock(d_model=d_model, n_heads=n_heads, d_hidden_ff=d_hidden_ff)

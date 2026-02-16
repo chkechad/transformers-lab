@@ -1,7 +1,5 @@
 """Decoder: stack of N DecoderBlock layers."""
 
-from __future__ import annotations
-
 from collections.abc import Callable
 
 import numpy as np
