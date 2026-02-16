@@ -1,3 +1,9 @@
+## v0.5.0 (2026-02-16)
+
+### Feat
+
+- add transformer model
+
 ## v0.4.0 (2026-02-15)
 
 ### Feat
