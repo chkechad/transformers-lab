@@ -7,26 +7,36 @@
 ![Coverage](https://codecov.io/gh/chkechad/transformers-lab/branch/main/graph/badge.svg)
 [![Docs](https://img.shields.io/badge/docs-mkdocs%20material-blue?logo=materialformkdocs)](https://chkechad.github.io/transformers-lab/)
 
+Transformer architecture implemented from scratch in pure NumPy — no PyTorch, no HuggingFace.
+Every forward pass validated numerically against PyTorch references.
+
 ## Prerequisites
 
 - Python 3.12
 - NumPy
 - Linear Algebra
-    - Vectors
-    - Matrices
-    - Matrix multiplication
+    - Vectors, Matrices, Matrix multiplication
     - Softmax
+
+---
 
 ## A Brief History of Language Modeling
 
-- 2013: Word2Vec / N-grams
-- 2014: RNN / LSTM
-- 2015: Attention mechanism
-- 2017: Transformers – large pre-trained language models
-- 2018: BERT
-- 2019: T5
-- 2020: GPT-3
-- 2022: PaLM
+| Year | Milestone                                   |
+|------|---------------------------------------------|
+| 2013 | Word2Vec / N-grams                          |
+| 2014 | RNN / LSTM                                  |
+| 2015 | Attention mechanism                         |
+| 2017 | **Transformer** — Attention Is All You Need |
+| 2018 | BERT (encoder-only)                         |
+| 2019 | GPT-2, T5                                   |
+| 2020 | GPT-3                                       |
+| 2022 | PaLM, ChatGPT                               |
+| 2023 | LLaMA, Mistral                              |
+| 2024 | LLaMA 3, DeepSeek V2/V3                     |
+| 2025 | DeepSeek R1                                 |
+
+---
 
 ## Why Transformers Exist
 
@@ -57,49 +67,103 @@ Attention(Q, K, V) = softmax((QK^T) / sqrt(d_k)) V
 - \(V\) : Value
 - \(d_k\) : dimension of the keys
 
-## Self-Attention
+## Implementation
 
-- Query, Key, and Value come from the same input
-- Padding and causal masks
-- Numerically stable softmax
+### ✅ Implemented & Validated
 
-## Multi-Head Attention
+#### Core Math
 
-- Why multiple heads matter
-- Splitting and concatenation
-- Dimension consistency
+- **Softmax** — numerically stable via max subtraction
+- **Xavier Initialization** — weight init for stable training
+- **Scaled Dot-Product Attention** — `softmax(QKᵀ / sqrt(d_k)) V`
+- **Causal Mask** — upper triangular `-inf` mask for autoregressive decoding
 
-## Positional Encoding
+#### Modules
 
-- Sinusoidal encoding
-- Learned positional embeddings
-- Impact on model performance
+- **LayerNorm** — `gamma * (x - mean) / std + beta`
+- **FeedForward** — `max(0, xW1 + b1)W2 + b2`
+- **Embedding** — token lookup table scaled by `sqrt(d_model)`
+- **Positional Encoding** — sinusoidal encoding from Vaswani et al.
 
-## Transformer Block
+#### Attention
 
-- Self-attention
-- Residual connections
-- Layer normalization
-- Feed-forward network
+- **MultiHead Attention** — self-attention + cross-attention
+- **EncoderBlock** — MultiHead Attention → Add & Norm → FFN → Add & Norm
+- **DecoderBlock** — Masked Attention → Add & Norm → Cross Attention → Add & Norm → FFN → Add & Norm
+
+#### Full Architecture
+
+- **Encoder** — stack of N EncoderBlocks
+- **Decoder** — stack of N DecoderBlocks
+- **Transformer** — Embedding + Positional Encoding + Encoder + Decoder + Linear Projection
+
+### 🔜 Next
+
+#### Backpropagation from Scratch
+
+- Cross-entropy loss
+- Backward pass — FFN, LayerNorm, Attention
+- SGD / Adam optimizer
+- Training loop
+- translation task (english → french)
+
+#### Modern Architectures
+
+- RoPE (Rotary Positional Embedding)
+- RMSNorm
+- SwiGLU
+- GQA (Grouped Query Attention)
+- LLaMA
+- MoE (Mixture of Experts)
+- DeepSeek V3
+- DeepSeek R1
+- Mamba (State Space Models)
+
+---
 
 ## Encoder / Decoder Architectures
 
-- Encoder-only (BERT)
-- Encoder–Decoder (T5)
-- Decoder-only (GPT)
+| Architecture    | Models      | Use case                   |
+|-----------------|-------------|----------------------------|
+| Encoder-only    | BERT        | Classification, NER        |
+| Encoder-Decoder | T5, Vaswani | Translation, summarization |
+| Decoder-only    | GPT, LLaMA  | Generation, reasoning      |
 
-## Training a Mini-Transformer
+---
 
-- Simple tasks (copy task, toy translation)
-- Cross-entropy loss
-- Backpropagation
-- Limits of pure Python implementations
+## Stack
 
-## Using the GPU
+- Python 3.12
+- NumPy
+- PyTorch — validation reference only
+- uv — package manager
+- pytest — tests
+- mypy — type checking
+- ruff — linting
+
+---
+
+## GPU Acceleration
 
 ### CUDA (NVIDIA)
 
-- Required for serious training
+- CuPy
 - CUDA Toolkit + cuDNN
 - PyTorch
 - Mixed precision (FP16 / BF16)
+- Replacement of NumPy with CuPy for GPU arrays
+
+### MLOPS
+
+- MLflow
+- DVC
+
+### Serving
+
+- vLLm
+- FastAPI
+
+### Monitoring & Logging
+
+- Prometheus + Grafana
+- LangFuse
