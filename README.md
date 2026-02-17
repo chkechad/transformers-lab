@@ -7,8 +7,10 @@
 ![Coverage](https://codecov.io/gh/chkechad/transformers-lab/branch/main/graph/badge.svg)
 [![Docs](https://img.shields.io/badge/docs-mkdocs%20material-blue?logo=materialformkdocs)](https://chkechad.github.io/transformers-lab/)
 
-Transformer architecture implemented from scratch in pure NumPy — no PyTorch, no HuggingFace.
+Transformer architecture implemented from scratch — pure NumPy, no PyTorch, no HuggingFace.
 Every forward pass validated numerically against PyTorch references.
+The goal: understand every single operation, then push to modern architectures, GPU training, Rust kernels, and production MLOps.
+
 
 ## Prerequisites
 
@@ -147,11 +149,9 @@ Attention(Q, K, V) = softmax((QK^T) / sqrt(d_k)) V
 
 ### CUDA (NVIDIA)
 
-- CuPy
+- refactoring to support CUDA with Cupy (for GPU support)
 - CUDA Toolkit + cuDNN
-- PyTorch
 - Mixed precision (FP16 / BF16)
-- Replacement of NumPy with CuPy for GPU arrays
 
 ### MLOPS
 
