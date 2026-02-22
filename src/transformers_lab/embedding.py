@@ -1,6 +1,7 @@
 """Embedding layer for mapping token IDs to dense vectors."""
 
 from collections.abc import Callable
+from typing import cast
 
 import numpy as np
 
@@ -43,4 +44,4 @@ class Embedding:
         np.ndarray
             Embedding vectors of shape (*token_ids.shape, d_model).
         """
-        return self.weights[token_ids] * np.sqrt(self.d_model)
+        return cast(np.ndarray, self.weights[token_ids] * np.sqrt(self.d_model))

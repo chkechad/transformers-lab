@@ -1,5 +1,7 @@
 """Weight init."""
 
+from typing import cast
+
 import numpy as np
 
 
@@ -23,5 +25,5 @@ def xavier_init(n1: int, n2: int, n_heads: int | None = None) -> np.ndarray:
     """
     std = np.sqrt(2.0 / (n1 + n2))
     if n_heads is not None:
-        return np.random.randn(n_heads, n1, n2) * std
-    return np.random.randn(n1, n2) * std
+        return cast(np.ndarray, np.random.randn(n_heads, n1, n2) * std)
+    return cast(np.ndarray, np.random.randn(n1, n2) * std)
