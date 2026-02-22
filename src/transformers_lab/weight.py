@@ -4,7 +4,7 @@ import numpy as np
 
 
 def xavier_init(n1: int, n2: int, n_heads: int | None = None) -> np.ndarray:
-    """Xavier initialization for weight matrices.
+    """Xavier Glorot initialization for weight matrices.
 
     Parameters
     ----------
@@ -21,6 +21,7 @@ def xavier_init(n1: int, n2: int, n_heads: int | None = None) -> np.ndarray:
     np.ndarray
         Shape (n_heads, n1, n2) or (n1, n2).
     """
+    std = np.sqrt(2.0 / (n1 + n2))
     if n_heads is not None:
-        return np.random.randn(n_heads, n1, n2) / np.sqrt(n2)
-    return np.random.randn(n1, n2) / np.sqrt(n2)
+        return np.random.randn(n_heads, n1, n2) * std
+    return np.random.randn(n1, n2) * std

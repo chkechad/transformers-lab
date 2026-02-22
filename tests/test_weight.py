@@ -12,5 +12,5 @@ def test_xavier_init(mocker: MockerFixture) -> None:
     weights = xavier_init(n1, n2)
 
     assert weights.shape == (n1, n2)
-    expected = mock_values / np.sqrt(n2)
+    expected = mock_values * np.sqrt(2.0 / (n1 + n2))
     np.testing.assert_allclose(weights, expected)
