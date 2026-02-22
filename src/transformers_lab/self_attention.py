@@ -36,8 +36,8 @@ def self_attention(
     np.ndarray
         Output of shape (seq_len, d_k)
     """
-    q: np.ndarray = x @ w_q
-    k: np.ndarray = x @ w_k
-    v: np.ndarray = x @ w_v
+    q: np.ndarray = x @ w_q  # (seq_len, d_k)
+    k: np.ndarray = x @ w_k  # (seq_len, d_k)
+    v: np.ndarray = x @ w_v  # (seq_len, d_k)
 
-    return scaled_dot_product_attention(q, k, v, mask=mask)
+    return scaled_dot_product_attention(q, k, v, mask=mask)  # (seq_len, d_k)

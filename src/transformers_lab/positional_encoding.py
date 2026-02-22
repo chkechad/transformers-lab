@@ -19,11 +19,11 @@ def sinusoidal_positional_encoding(seq_len: int, d_model: int) -> np.ndarray:
     np.ndarray
         Positional encoding matrix of shape (seq_len, d_model)
     """
-    position = np.arange(seq_len)[:, np.newaxis]
-    div_term = np.exp(np.arange(0, d_model, 2) * -(np.log(10000.0) / d_model))
+    position = np.arange(seq_len)[:, np.newaxis]  # (seq_len, 1)
+    div_term = np.exp(np.arange(0, d_model, 2) * -(np.log(10000.0) / d_model))  # (d_model/2,)
 
-    pe = np.zeros((seq_len, d_model))
-    pe[:, 0::2] = np.sin(position * div_term)
-    pe[:, 1::2] = np.cos(position * div_term)
+    pe = np.zeros((seq_len, d_model))  # (seq_len, d_model)
+    pe[:, 0::2] = np.sin(position * div_term)  # (seq_len, d_model/2)
+    pe[:, 1::2] = np.cos(position * div_term)  # (seq_len, d_model/2)
 
-    return pe
+    return pe  # (seq_len, d_model)

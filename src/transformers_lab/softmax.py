@@ -10,6 +10,8 @@ similarity scores (attention scores) into attention weights.
 
 """
 
+from typing import cast
+
 import numpy as np
 
 
@@ -22,12 +24,18 @@ def softmax(x: np.ndarray, axis: int = -1) -> np.ndarray:
     In Transformers, it is commonly used to convert attention
     similarity scores into attention weights.
 
-    :param x: NumPy array containing the input scores.
-    :param axis: Axis along which the normalization is applied.
-                 Defaults to the last axis.
-    :return: NumPy array of the same shape as x containing
-             the normalized probabilities.
+    Parameters
+    ----------
+    x : np.ndarray
+        Input array containing the scores.
+    axis : int, optional
+        Axis along which the normalization is applied. Defaults to the last axis.
+
+    Returns:
+    -------
+    np.ndarray
+        Array of the same shape as x containing the normalized probabilities.
     """
     x = x - np.max(x, axis=axis, keepdims=True)
     exp_x = np.exp(x)
-    return exp_x / np.sum(exp_x, axis=axis, keepdims=True)
+    return cast(np.ndarray, exp_x / np.sum(exp_x, axis=axis, keepdims=True))

@@ -21,14 +21,15 @@ def causal_mask(seq_len: int) -> np.ndarray:
 
     Example:
     -------
-    k=1 (diagonale exclue)
+    Step 1 — initialize to zeros:
     ┌─────────────┐
     │ 0  0  0  0   │
     │ 0  0  0  0   │
     │ 0  0  0  0   │
     │ 0  0  0  0   │
     └─────────────┘
-    mask = np.triu(np.ones((4, 4)), k=1) * -np.inf
+    Step 2 — set upper triangle (k=1, diagonal excluded) to -inf:
+    mask[np.triu_indices(seq_len, k=1)] = -np.inf
     ┌──────────────────────┐
     │  0   -inf  -inf  -inf  │
     │  0     0   -inf  -inf  │

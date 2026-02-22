@@ -1,5 +1,7 @@
 """layer normalisation implementation."""
 
+from typing import cast
+
 import numpy as np
 
 
@@ -46,4 +48,4 @@ class LayerNorm:
         mean = np.mean(x, axis=-1, keepdims=True)
         variance = np.var(x, axis=-1, keepdims=True)
         normalized = (x - mean) / np.sqrt(variance + self.eps)
-        return self.gamma * normalized + self.beta
+        return cast(np.ndarray, self.gamma * normalized + self.beta)

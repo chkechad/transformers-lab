@@ -1,5 +1,7 @@
 """Compute scaled_dot_product_attention."""
 
+from typing import cast
+
 import numpy as np
 
 from transformers_lab.softmax import softmax
@@ -32,9 +34,8 @@ def scaled_dot_product_attention(
         Output matrix of shape (seq_len, d_k)
     """
     d_k = q.shape[-1]
-    scores = q @ k.T
-    scores = scores / np.sqrt(d_k)
+    scores: np.ndarray = cast(np.ndarray, q @ k.T / np.sqrt(d_k))  # (seq_len, seq_len)
     if mask is not None:
-        scores = scores + mask
-    weights: np.ndarray = softmax(scores, axis=-1)
-    return weights @ v
+        scores = scores + mask  # (seq_len, seq_len)
+    weights: np.ndarray = softmax(scores, axis=-1)  # (seq_len, seq_len)
+    return cast(np.ndarray, weights @ v)  # (seq_len, d_k)

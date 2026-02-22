@@ -1,6 +1,7 @@
 """Feed forward neural network module."""
 
 from collections.abc import Callable
+from typing import cast
 
 import numpy as np
 
@@ -38,7 +39,7 @@ class FeedForward:
 
     def relu(self, x: np.ndarray) -> np.ndarray:
         """ReLU activation function."""
-        return np.maximum(x, 0)
+        return cast(np.ndarray, np.maximum(x, 0))
 
     def forward(self, x: np.ndarray) -> np.ndarray:
         """Run forward pass.
@@ -53,9 +54,9 @@ class FeedForward:
         np.ndarray
             Shape (seq_len, d_model)
         """
-        hidden = x @ self.w1 + self.b1
-        hidden = self.relu(hidden)
+        hidden: np.ndarray = cast(np.ndarray, x @ self.w1 + self.b1)  # (seq_len, d_ff)
+        hidden = self.relu(hidden)  # (seq_len, d_ff)
 
-        output = hidden @ self.w2 + self.b2
+        output: np.ndarray = cast(np.ndarray, hidden @ self.w2 + self.b2)  # (seq_len, d_model)
 
         return output
