@@ -7,12 +7,6 @@ PRECOMMIT   := $(UV) run pre-commit
 PYTEST      := $(UV) run pytest
 MKDOCS      := $(UV) run mkdocs
 CZ          := $(UV) run cz
-PIPAUDIT    := $(UV) run pip-audit
-BANDIT      := $(UV) run bandit
-MUTMUT      := $(UV) run mutmut
-RADON       := $(UV) run radon
-VULTURE     := $(UV) run vulture
-CYCLODX     := $(UV) run cyclonedx-py
 
 SRC := src
 TESTS := tests
@@ -31,17 +25,6 @@ help:
 	@echo "make test           Run pytest + doctest"
 	@echo "make coverage       HTML coverage report"
 	@echo "make benchmark      Run performance benchmarks"
-	@echo ""
-	@echo "========== Security =========="
-	@echo "make bandit         Code security scan"
-	@echo "make security       Dependency audit"
-	@echo "make sbom           Generate SBOM"
-	@echo ""
-	@echo "========== Advanced Quality =========="
-	@echo "make mutation       Run mutation tests"
-	@echo "make complexity     Cyclomatic complexity"
-	@echo "make deadcode       Detect unused code"
-	@echo "make profile        Run profiling"
 	@echo ""
 	@echo "========== Docs =========="
 	@echo "make doc-serve      Serve docs"
@@ -89,43 +72,6 @@ benchmark:
 	$(PYTEST) --benchmark-only
 
 # =========================================
-# Security
-# =========================================
-.PHONY: bandit
-bandit:
-	$(BANDIT) -q -r $(SRC) -x $(TESTS)
-
-.PHONY: security
-security:
-	$(PIPAUDIT) --strict
-
-.PHONY: sbom
-sbom:
-	$(CYCLODX) environment --output-format json --output-file sbom.json
-	@echo "SBOM generated → sbom.json"
-
-# =========================================
-# Advanced Quality
-# =========================================
-.PHONY: mutation
-mutation:
-	$(MUTMUT) run
-	$(MUTMUT) results
-
-.PHONY: complexity
-complexity:
-	$(RADON) cc $(SRC) -a
-
-.PHONY: deadcode
-deadcode:
-	$(VULTURE) $(SRC)
-
-.PHONY: profile
-profile:
-	$(PYTHON) -m cProfile -o profile.out -m pytest
-	@echo "Profile saved → profile.out"
-
-# =========================================
 # Documentation
 # =========================================
 .PHONY: doc-serve
@@ -169,7 +115,4 @@ clean:
 	rm -rf site
 	rm -rf dist
 	rm -rf build
-	rm -rf .mutmut-cache
-	rm -rf profile.out
-	rm -rf sbom.json
 	rm -rf .cache/pre-commit

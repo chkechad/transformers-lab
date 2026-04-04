@@ -9,8 +9,8 @@
 
 Transformer architecture implemented from scratch — pure NumPy, no PyTorch, no HuggingFace.
 Every forward pass validated numerically against PyTorch references.
-The goal: understand every single operation, then push to modern architectures, GPU training, Rust kernels, and production MLOps.
-
+The goal: understand every single operation, then push to modern architectures, GPU training, Rust kernels, and
+production MLOps.
 
 ## Prerequisites
 
@@ -99,27 +99,49 @@ Attention(Q, K, V) = softmax((QK^T) / sqrt(d_k)) V
 - **Decoder** — stack of N DecoderBlocks
 - **Transformer** — Embedding + Positional Encoding + Encoder + Decoder + Linear Projection
 
-### 🔜 Next
-
-#### Backpropagation from Scratch
-
-- Cross-entropy loss
-- Backward pass — FFN, LayerNorm, Attention
-- SGD / Adam optimizer
-- Training loop
-- translation task (english → french)
-
 #### Modern Architectures
 
 - RoPE (Rotary Positional Embedding)
+    - Position: Sinusoïdale additive positional encoding → RoPE (Rotary Positional Embedding)
+        - Avantage : Cela permet au modèle de mieux capturer les distances relatives entre les tokens, contrairement à
+          l'approche fixe et additive.
 - RMSNorm
+    - Norm: LayerNorm (Moyenne + Var) → RMSNorm (RMS uniquement)
+        - Avantage : RMSNorm est plus rapide à calculer et peut offrir des performances similaires ou meilleures que
+          LayerNorm dans certains cas, en particulier pour les modèles de grande taille.
 - SwiGLU
+    - Activation: ReLU → SwiGLU
+        - Avantage : SwiGLU est une activation plus expressive que ReLU, permettant au modèle de mieux capturer les
+          interactions complexes entre les caractéristiques.
 - GQA (Grouped Query Attention)
-- LLaMA
+    - Attention: MHA (1Q : 1K : 1V) → GQA (Gpe Q : 1K : 1V)
+        - Avantage : GQA permet de réduire le coût de calcul de l'attention en regroupant les requêtes, tout en
+          maintenant une bonne performance.
+- LLaMA:  Decoder-only + RoPE, RMSNorm et SwiGLU
 - MoE (Mixture of Experts)
 - DeepSeek V3
+    - Il améliore GQA multihead_attention.py avec la MLA (Multi-head Latent Attention). Au lieu de simplement grouper
+      les
+      têtes, il compresse les clés et valeurs
+      dans un vecteur latent de basse dimension.
 - DeepSeek R1
+    - La différence n'est pas structurelle (elle utilise l'architecture de V3), mais réside dans l'entraînement. Il
+      utilise
+      l'apprentissage par renforcement (RL) pour forcer le modèle à générer une "chaîne de pensée" (Reasoning).
 - Mamba (State Space Models)
+    - Ce qui change : C'est une rupture totale. Mamba remplace complètement le mécanisme de scaled_dot_product_attention
+      scaled_dot_prod_attention.py par un modèle d'espace d'états (SSM).
+
+#### Résumé
+
+| Composant      | Ton implémentation            | Modernisation                          | Modèle cible     |
+|:---------------|:------------------------------|:---------------------------------------|:-----------------|
+| **Position**   | Sinusoïdale additive [12]     | $\rightarrow$ RoPE (Rotation)          | LLaMA, Mistral   |
+| **Norm**       | LayerNorm (Moyenne + Var) [9] | $\rightarrow$ RMSNorm (RMS uniquement) | LLaMA, PaLM      |
+| **Activation** | ReLU [8]                      | $\rightarrow$ SwiGLU                   | LLaMA, DeepSeek  |
+| **Attention**  | MHA (1Q : 1K : 1V) [11]       | $\rightarrow$ GQA (Gpe Q : 1K : 1V)    | LLaMA 3, Mistral |
+| **Structure**  | Encoder-Decoder [10]          | $\rightarrow$ Decoder-only / MoE       | GPT-4, DeepSeek  |
+| **Mécanisme**  | Attention $O(N^2)$ [13]       | $\rightarrow$ SSM (Selective Scan)     | Mamba            |
 
 ---
 
@@ -142,28 +164,3 @@ Attention(Q, K, V) = softmax((QK^T) / sqrt(d_k)) V
 - pytest — tests
 - mypy — type checking
 - ruff — linting
-
----
-
-## GPU Acceleration
-
-### CUDA (NVIDIA)
-
-- refactoring to support CUDA with Cupy (for GPU support)
-- CUDA Toolkit + cuDNN
-- Mixed precision (FP16 / BF16)
-
-### MLOPS
-
-- MLflow
-- DVC
-
-### Serving
-
-- vLLm
-- FastAPI
-
-### Monitoring & Logging
-
-- Prometheus + Grafana
-- LangFuse
