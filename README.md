@@ -159,8 +159,8 @@ Attention(Q, K, V) = softmax((QK^T) / sqrt(d_k)) V
 
 - Python 3.12
 - NumPy
-- PyTorch — validation reference only
-- uv — package manager
-- pytest — tests
-- mypy — type checking
-- ruff — linting
+- PyTorch - validation reference only
+- uv - package manager
+- pytest - tests
+- mypy - type checking
+- ruff - linting
