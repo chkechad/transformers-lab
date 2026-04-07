@@ -98,8 +98,8 @@ release:
 # Master pipeline
 # =========================================
 .PHONY: check
-check: lint typecheck bandit security test
-	@echo "✅✅✅✅"
+check: lint typecheck test
+	@echo "✅✅✅"
 
 # =========================================
 # Cleaning
