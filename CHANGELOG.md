@@ -1,3 +1,14 @@
+## v0.6.0 (2026-04-07)
+
+### Feat
+
+- fix transformers
+
+### Fix
+
+- readme
+- makefile
+
 ## v0.5.1 (2026-02-22)
 
 ### Fix
