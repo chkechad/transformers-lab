@@ -1,6 +1,7 @@
 """Full Transformer model (Encoder + Decoder + linear projection)."""
 
 from collections.abc import Callable
+from typing import cast
 
 import numpy as np
 
@@ -104,10 +105,10 @@ class Transformer:
         tgt_seq_len = tgt_ids.shape[0]
 
         # Embedding + positional encoding
-        src = self.src_embedding(src_ids) + self.pos_encoding[:src_seq_len]
-        tgt = self.tgt_embedding(tgt_ids) + self.pos_encoding[:tgt_seq_len]
+        src = self.src_embedding(src_ids) + self.pos_encoding[:src_seq_len]  # (src_seq_len, d_model)
+        tgt = self.tgt_embedding(tgt_ids) + self.pos_encoding[:tgt_seq_len]  # (tgt_seq_len, d_model)
 
         # Encoder → Decoder → projection
-        encoder_output = self.encoder.forward(src)
-        decoder_output = self.decoder.forward(tgt, encoder_output)
-        return decoder_output @ self.w_proj
+        encoder_output = self.encoder.forward(src)  # (src_seq_len, d_model)
+        decoder_output = self.decoder.forward(tgt, encoder_output)  # (tgt_seq_len, d_model)
+        return cast(np.ndarray, decoder_output @ self.w_proj)  # (tgt_seq_len, tgt_vocab_size)

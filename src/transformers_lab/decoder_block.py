@@ -60,7 +60,7 @@ class DecoderBlock:
         layer_norm_fn: Callable[[int], LayerNorm] = LayerNorm,
         causal_mask: Callable[[int], np.ndarray] = causal_mask,
     ) -> None:
-        """Initialize the EncoderBlock.
+        """Initialize the DecoderBlock.
 
         Parameters
         ----------

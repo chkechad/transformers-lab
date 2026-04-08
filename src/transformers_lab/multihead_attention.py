@@ -1,5 +1,7 @@
 """Compute multi-head-attention."""
 
+from typing import cast
+
 import numpy as np
 
 from transformers_lab.scaled_dot_product_attention import scaled_dot_product_attention
@@ -55,13 +57,13 @@ def multi_head_attention(
     heads: list[np.ndarray] = []
 
     for i in range(n_heads):
-        q = x @ w_q[i]
-        k = kv_source @ w_k[i]
-        v = kv_source @ w_v[i]
+        q: np.ndarray = cast(np.ndarray, x @ w_q[i])  # (seq_len, d_k)
+        k: np.ndarray = cast(np.ndarray, kv_source @ w_k[i])  # (seq_len, d_k)
+        v: np.ndarray = cast(np.ndarray, kv_source @ w_v[i])  # (seq_len, d_k)
 
-        head = scaled_dot_product_attention(q, k, v, mask=mask)
+        head = scaled_dot_product_attention(q, k, v, mask=mask)  # (seq_len, d_k)
         heads.append(head)
 
-    concat = np.concatenate(heads, axis=-1)
+    concat = np.concatenate(heads, axis=-1)  # (seq_len, d_model)
 
-    return concat @ w_o
+    return cast(np.ndarray, concat @ w_o)  # (seq_len, d_model)
